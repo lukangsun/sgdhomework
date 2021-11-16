@@ -1,0 +1,93 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Sep  20 19:29:31 2021
+
+@author: Lukang Sun
+"""
+
+from matplotlib.legend import Legend
+import numpy as np
+import matplotlib.pyplot as plt
+from numpy import random
+from numpy import matrix
+from numpy import *
+import math
+from random import sample
+
+
+#define list of a b and calculate some key parameter
+
+def f(x,y):
+    return 0.5*(2*x*x+y*y)
+
+def grad(x,y):
+    return [2*x,1.0*y]
+
+#parameter
+
+
+#iteration
+def returnfandtraj(iter,pp,qq):
+    traj1=[]
+    traj2=[]
+    traj3=[]
+    traj4=[]
+    funcvalue = []
+    x_initial = [1,1]
+    y = [0,0]
+    x = [0,0]
+    stepsize = 200**-1
+    g = [1000,100]
+    p=pp
+    q=qq
+    for i in range(iter):
+        if i==0:
+            x[0] = x_initial[0]
+            x[1] = x_initial[1]
+            y[0] = x_initial[0]
+            y[1] = x_initial[1]
+            funcvalue.append(f(x[0],x[1]))
+    
+        tmp1=random.uniform(0,1)
+        if tmp1<q:
+            g[0]=q**(-1)*grad(x[0],x[1])[0]+(1-q**-1)*grad(y[0],y[1])[0]
+            g[1]=q**(-1)*grad(x[0],x[1])[1]+(1-q**-1)*grad(y[0],y[1])[1]
+        else:
+            g[0]=grad(y[0],y[1])[0]
+            g[1]=grad(y[0],y[1])[1]
+
+        tmp2=random.uniform(0,1)
+        if tmp2<p:
+            y[0]=x[0]
+            y[1]=x[1]
+
+        x[0]=x[0]-stepsize*g[0]
+        x[1]=x[1]-stepsize*g[1]
+        funcvalue.append(f(x[0],x[1]))
+        traj1.append(x[0])
+        traj2.append(x[1])
+        traj3.append(y[0])
+        traj4.append(y[1])
+    return [funcvalue,traj1,traj2,traj3,traj4]
+
+#plot
+iter = 2000
+lis = [i for i in range(iter+1)]
+fun1 = returnfandtraj(iter,0.005,0.005)[0]
+fun2 = returnfandtraj(iter,0.9,0.9)[0]
+
+plt.plot(lis,returnfandtraj(iter,0.005,0.005)[0],linewidth = 0.5,label = 'p=0.005,1=0.005')
+plt.plot(lis,returnfandtraj(iter,0.9,0.9)[0],linewidth = 0.5,label = 'p=0.9,q=0.9')
+
+ 
+plt.legend()
+plt.xlabel('Iteration')
+plt.ylabel('Function Value')
+#plt.title('tau = 5, p = 0.2')
+plt.show()
+        
+
+
+
+
+

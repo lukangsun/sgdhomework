@@ -1,0 +1,27 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\title{Questions}
+\begin{document}
+\maketitle
+\paragraph{Q1.} is there Random Reshuffling -PAGE ? is it possible to accelerate "random shuffling "or the variants of random reshuffling or is there result on this(at least I don't find)? is there Proximal random reshuffling?
+\paragraph{Q2.}In "A Geometric Structure of Acceleration and Its Role in Making Gradients Small Fast", they proposed accelerated method and proved
+\begin{equation}
+	\left\|\nabla f\left(x_{K}\right)\right\|^{2} \leq \frac{C L}{(K+2)^{2}}\left(f\left(x_{0}\right)-f_{\star}\right),	
+\end{equation}
+this is different from the usual
+\begin{equation*}
+	f\left(x_{K}\right)-f^{*} \leq \frac{C L}{(K+1)^{2} }\left\|x_{0}-x^{*}\right\|_{2}^{2},
+\end{equation*}
+combining the two bound, we can get
+\begin{equation*}
+	\left\|\nabla f\left(x_{2K}\right)\right\|^{2} \leq  \frac{C L^2}{(K+1)^{4} }\left\|x_{0}-x^{*}\right\|_{2}^{2}.
+\end{equation*}
+So I wonder if it is possible to get some results under stochastic gradient(sampling, compression, or with variance reduction) setting?
+\newline
+If you can comment on these questions based on your knowledge, that will save me a lot of time.
+\end{document}

@@ -1,0 +1,34 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\title{CS 331: Stochastic Gradient Descent Methods Assignment 1}
+\author{Lukang Sun, ID: 182056}
+\begin{document}
+	\maketitle
+	\paragraph{p1.} Computing the Hesssian of the function, we know it is 2-smoothness, 
+	so step size $\gamma\leq \frac{1}{L}=0.5.$ (After the first iteration, y-coordinate becomes 0, so y will not involve in the gradient descent process, only x-coordinate involves, however function is 0.02-smoothness with respect to the variable x, so after the first iteration, we can  adjust the step size to 50.) Figure 1.shows the trajectory of gradient descent when $\gamma = 0.5$.
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{"Figure_1"}
+		\caption{I set step size $\gamma = 0.5$, blue points are generated during the iteration, initial point is (5,5), the 100th iteration point is around(1.83,0), red line is the trajectory of the iteration.}
+		\label{fig:figure1-1}
+	\end{figure}
+	
+	\paragraph{p2.} Since $f(t)=e^t$ is convex function, so $D_{f}(x,y)\geq 0$, for any $x,y\in \mathbb{R}$, select $x=t, y=0$, then 
+	$D_f(t,0)=e^t-e^0-\langle e^0,t-0\rangle=e^t-1-t\geq 0.$
+	
+	\paragraph{p3.}$prox_R(x)=\arg\min_{a^Tu=0}||u-x||^2=x-\frac{a^Tx}{||a||^2}a.$ Let $u = u_0 a+u_1 a^{\perp}, x= x_0a+x_1a^{\perp},$  where $u_1a^{\perp}=u-\frac{a^Tu}{||a||^2}a, x_1a^{\perp}=x-\frac{a^Tx}{||a||^2}a,$ so $||u-x||^2 = ||u_0a-x_0a||^2+||u_1a^{\perp}-x_1a^{\perp}||^2$, so $\arg\min_{a^Tu=0}||u-x||^2=\arg\min_{\{u:u_0=0\}}||u_0a-x_0a||^2+||u_1a^{\perp}-x_1a^{\perp}||^2=x_1u^{\perp}=x-\frac{a^Tx}{||a||^2}a.$
+	
+	\paragraph{p4.}$D_f(y,x)\geq \frac{\mu}{2} ||x-y||^2$ according to the statement of the problem, both side add $D_f(x,y)$,
+	then we have $$\langle\nabla f(x)-\nabla f(y),x-y\rangle = D_f(x,y)+D_f(y,x)\geq D_f(x,y)+\frac{\mu}{2}||x-y||^2,$$
+	which is the inequality we want to prove.
+	
+	\paragraph{p5.} let $g(t) = \langle \nabla f(y+t(x-y)),x-y\rangle$, then according to the mean value theorem, we have $g(1) - g(0) = g'(\xi)$, for some $\xi\in[0,1]$, that is 
+	$$\langle\nabla f(x)-\nabla f(y),x-y\rangle=\langle\nabla^2 f(y+\xi (x-y))(x-y),x-y\rangle,$$
+	since $\nabla^2f$ is positive semi-definite, so R.H.S of the above
+	 formula is no less than 0, which means the symmetrized Bregman divergence is no less than 0, so $f$ is convex.
+\end{document}

@@ -1,0 +1,88 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\begin{document}
+	This is the underdamped Langevin dynamic(I choose $\gamma = 2, u= \frac{1}{L}$ here):
+	\begin{equation}
+	\begin{aligned}
+		d {v}_{t} &=-2{v}_{t} d t-\frac{1}{L} \nabla f\left({x}_{t}\right) d t+(2\sqrt{ \frac{1}{L}}) d B_{t} \\
+		d {x}_{t} &={v}_{t} d t.
+	\end{aligned}
+	\end{equation}
+	To prove the convergence of discretized underdamped Langevin dynamic, we need the following theorem:
+		\newline
+	\textbf{Theorem.} Let $\left(x_{0}, v_{0}\right)$ and $\left(y_{0}, w_{0}\right)$ be two arbitrary points in $\mathbb{R}^{2 d}$. Let $p_{0}$ be the Dirac delta distribution at $\left(x_{0}, v_{0}\right)$ and let $p_{0}^{\prime}$ be the Dirac delta distribution at $\left(y_{0}, w_{0}\right) .$ We pick $u=1 / L$ where $L$ is the smoothness parameter of the function $f(x)$, $f(x)$ is $m-$convex, $\kappa = \frac{L}{m}$  and $\gamma=2 .$ Then for every $t>0$, there exists a coupling $\zeta_{t}\left(x_{0}, v_{0}, y_{0}, w_{0}\right) \in \Gamma\left(\Phi_{t} p_{0}, \Phi_{t} p_{0}^{\prime}\right)$ such that
+	$$
+	\begin{array}{r}
+		\mathbb{E}_{\left(x_{t}, v_{t}, y_{t}, w_{t}\right) \sim \zeta_{t}\left(\left(x_{0}, v_{0}, y_{0}, w_{0}\right)\right)}\left[\left\|x_{t}-y_{t}\right\|_{2}^{2}+\left\|\left(x_{t}+v_{t}\right)-\left(y_{t}+w_{t}\right)\right\|_{2}^{2}\right] \\
+		\leq e^{-t / \kappa}\left\{\left\|x_{0}-y_{0}\right\|_{2}^{2}+\left\|\left(x_{0}+v_{0}\right)-\left(y_{0}+w_{0}\right)\right\|_{2}^{2}\right\}
+	\end{array}
+	$$ 
+	
+	It is easy to derive the following corollary of this theorem:
+	\newline
+	
+	\textbf{Corollary.} Let $p_{0}$ be arbitrary distribution with $\left(x_{0}, v_{0}\right) \sim p_{0} .$ Let $q_{0}$ and $\Phi_{t} q_{0}$ be the distributions of $\left(x_{0}, x_{0}+v_{0}\right)$ and $\left(x_{t}, x_{t}+v_{t}\right)$, respectively (i.e., the images of $p_{0}$ and $\Phi_{t} p_{0}$ under the map $g(x, v)=(x, x+v))$. Then
+	$$
+	W_{2}\left(\Phi_{t} q_{0}, q^{*}\right) \leq e^{-t / 2 \kappa} W_{2}\left(q_{0}, q^{*}\right)
+	$$ 
+	
+	The strategy is to bound the one step error $W_{2}\left(\Phi_{\delta} q^{(i)}, \tilde{\Phi}_{\delta} q^{(i)}\right)$, since by the triangle inequality and the corollary, we have 
+	\begin{equation}
+		\begin{aligned}
+		W_{2}\left(q^{(i+1)}, q^{*}\right)=W_{2}\left(\tilde{\Phi}_{\delta} q^{(i)}, q^{*}\right) &\leq W_{2}\left(\Phi_{\delta} q^{(i)}, \tilde{\Phi}_{\delta} q^{(i)}\right)+W_{2}\left(\Phi_{\delta} q^{(i)}, q^{*}\right)\\
+		&\leq W_{2}\left(\Phi_{\delta} q^{(i)}, \tilde{\Phi}_{\delta} q^{(i)}\right)+e^{-s / 2 \kappa} W_{2}\left(q^{(i)}, q^{*}\right)
+		\end{aligned}
+	\end{equation}
+
+The advantage of underdamped Langevin algorithm is that $W_{2}^{2}\left(\Phi_{\delta} q^{(i)}, \tilde{\Phi}_{\delta} q^{(i)}\right)\sim \mathcal{O}(s^4)$, $s$ is the step size, while for Langevin algorithm it is only $\mathcal{O}(s^3)$ .
+\newline
+for underdamped Langevin algorithm: $$W_{2}^{2}\left(\Phi_{\delta} q^{(i)}, \tilde{\Phi}_{\delta} q^{(i)}\right)\lesssim \mathbb{E}\left[\left\|v_{s}-\tilde{v}_{s}\right\|_{2}^{2}\right]+	\mathbb{E}\left[\left\|x_{s}-\tilde{x}_{s}\right\|_{2}^{2}\right]$$
+
+\begin{equation}
+	\begin{aligned}
+		\mathbb{E}\left[\left\|v_{s}-\tilde{v}_{s}\right\|_{2}^{2}\right]\lesssim \mathbb{E}\left[\left\| \int_{0}^{s} \left(\nabla f\left(x_{r}\right)-\nabla f\left(x_{0}\right)\right) d r\right\|_{2}^{2}\right]
+		 \stackrel{}{\lesssim} s \int_{0}^{s} \mathbb{E}\left[\left\|x_{r}-x_{0}\right\|_{2}^{2}\right] d r\sim\mathcal{O}(s^4)
+	\end{aligned}
+\end{equation}
+while due to the second equation of $(1)$, we have $x_r-x_0=\int_0^r v_wdw\sim \mathcal{O}(r)$, so 
+$s \int_{0}^{s} \mathbb{E}\left[\left\|x_{r}-x_{0}\right\|_{2}^{2}\right] d r\sim\mathcal{O}(s^4)$(comparing this with Langevin algorithm, there we have $x_r-x_0=\int_0^r\nabla f(x_w)dw+\int_0^rdB_t$, $\int_0^r\nabla f(x_w)dw\sim \mathcal{O}(r)$, but for the Brownian motion part, we only have $\int_0^rdB_t\sim\mathcal{O}(r^{\frac{1}{2}}$ due to the property of Brownian motion, so in total it is only $\sim\mathcal{O}(s^3)$).
+
+\begin{equation}
+	\begin{aligned}
+		\mathbb{E}\left[\left\|x_{s}-\tilde{x}_{s}\right\|_{2}^{2}\right] &=\mathbb{E}\left[\left\|\int_{0}^{s}\left(v_{r}-\tilde{v}_{r}\right) d r\right\|_{2}^{2}\right] \\
+		& \leq s \int_{0}^{s} \mathbb{E}\left[\left\|v_{r}-\tilde{v}_{r}\right\|_{2}^{2}\right] d r\overset{(3)}{\sim}\mathcal{O}(s^6)
+	\end{aligned}
+\end{equation}
+so finally we have $W_{2}\left(\Phi_{\delta} q^{(i)}, \tilde{\Phi}_{\delta} q^{(i)}\right)\sim\mathcal{O}(s^2) \text{  for underdamped Langevin algorithm}$, $W_{2}\left(\Phi_{\delta} q^{(i)}, \tilde{\Phi}_{\delta} q^{(i)}\right)\sim\mathcal{O}(s^{1.5}) \text{  for Langevin algorithm}$.
+\newline
+ By iteration of $(2)$, 
+\begin{equation*}
+	W_2(q^{(k)},q^*)\lesssim s+e^{-ks/2\kappa}W_2(q^{(0)},q^*),    \text{     underdamped Langevin}
+\end{equation*}
+\begin{equation*}
+	W_2(q^{(k)},q^*)\lesssim s^{0.5}+e^{-ksm}W_2(q^{(0)},q^*),    \text{      overdamped Langevin}
+\end{equation*}
+
+
+When using stochastic gradient $g(x_0)$to replace full gradient $\nabla f(x_0)$ $(3)$ will be 
+
+\begin{equation}
+	\begin{aligned}
+		\mathbb{E}\left[\left\|v_{s}-\tilde{v}_{s}\right\|_{2}^{2}\right]&\lesssim \mathbb{E}\left[\left\| \int_{0}^{s} \left(\nabla f\left(x_{r}\right)-g\left(x_{0}\right)\right) d r\right\|_{2}^{2}\right]\\
+		&\lesssim  \mathbb{E}\left[\left\| \int_{0}^{s} \left(\nabla f\left(x_{r}\right)-\nabla f\left(x_{0}\right)\right) d r\right\|_{2}^{2}\right]+\fcolorbox{red}{yellow}{\mathbb{E}\left[\left\| \int_{0}^{s} \left(\nabla f\left(x_{0}\right)-g\left(x_{0}\right)\right) d r\right\|_{2}^{2}\right]}\\
+		&\stackrel{}{\lesssim} s \int_{0}^{s} \mathbb{E}\left[\left\|x_{r}-x_{0}\right\|_{2}^{2}\right] d r(\sim\mathcal{O}(s^4))+ s^2C(x_0)(\sim\mathcal{O}(s^2))\sim\mathcal{O}(s^2)
+	\end{aligned}
+\end{equation}
+
+
+
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\begin{document}
+	\paragraph{p1.}(n=100,d=1000)for $i=1,2,\cdots,n-1$, $g_i=(C,\cdots,C)^{T},$ and $ g_n=(C+1,\cdots,C+1)^{T}$. then $Var(g)=d \left(\frac{n-1}{n}(C-C-\frac{1}{n})+\frac{1}{n}(C+1-C-\frac{1}{n})\right)=\frac{d(n-1)}{n^2}$. Choose $\left\{S_i\right\}$, such that they minimize
+	\begin{equation}
+		\left\|\frac{1}{n}\sum_{i=1}^{n}\tau S_ig_i-\frac{1}{n}\sum_{i=1}^{n}g_i\right\|^2,
+	\end{equation}
+	the the number of the nonzero element of $S_i$ is at most $K=\frac{d}{n}$, we choose $C=10^{100000}$, so it is easy to know that $\left\{S_i \right\}$ is a permutation,$\tau = n$, in this case 
+	\begin{equation}
+		\begin{aligned}
+		(1) &= (d-K)(\frac{1}{n}nC-C-\frac{1}{n})^2+K(\frac{1}{n}n(C+1)-C-\frac{1}{n})^2\\
+			 &= \frac{d(n-1)}{n^2},
+		\end{aligned}
+	\end{equation}
+	so $C_K$ is exactly 1 in this case.(if $C$ is very large, we have to choose such kind of $\tau$ and $S_i$, if $C$ is small, we may have other choice of $\tau$ and $S_i$ such that $(1)$ is strictly less than $\frac{d(n-1)}{n^2}$.)
+	\paragraph{p2.}
+	if define $g(x,C):=f(Cx)$, then $$\mathrm{E}_{C}g(x,C)=\mathrm{E}_{C}f(Cx),$$   $$x_{k+1}=x_{k}-\gamma C^{T}\nabla f(Cx_k) =  x_{k+1}=x_{k}-\gamma \nabla g(x_k,C), $which is SGD-US(here the index is $C$ instead of $i$). I don't know what you want me to analyze.
+\end{document}
