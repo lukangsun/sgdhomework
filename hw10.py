@@ -101,8 +101,7 @@ for k in range(3000):
     yy.append(dis_final1[k][1,0])
 
 
-print(x)
-print(xx)
+
 plt.plot(x,y,linewidth = 0.5, label = 'L-SVRG-Uniform p=0.01')
 plt.plot(xx,yy,linewidth = 0.5, label = 'L-SVRG-Uniform, p=0.9')
  
