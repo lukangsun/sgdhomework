@@ -196,6 +196,8 @@ def EF21RANKK(iteration,initialp,stepsizes,probability):
 
 
 
+
+
 iteration = 5
 stepsize = 100**-1
 p=0.3
