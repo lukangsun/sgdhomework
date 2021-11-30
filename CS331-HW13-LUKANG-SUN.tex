@@ -1,0 +1,58 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{ stmaryrd }
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{float}
+\newtheorem*{lemma}{Lemma}
+\newtheorem*{theorem}{Theorem}
+\newtheorem*{corollary}{Corollary}
+\newtheorem*{prf}{\textbf{Proof}}
+\usepackage{caption}
+\DeclareMathOperator{\n}{\nabla}
+\DeclareMathOperator{\E}{\mathrm{E}}
+\DeclareMathOperator{\xyz}{\textbf{numpy.random.normal()}}
+\title{CS331-HW12-Lukang-Sun}
+\begin{document}
+	\maketitle
+	
+	\paragraph{p1.}
+	(see Figure $\ref{img2}$.)
+	$$f_1(x_0,x_1,x_2,x_3):=math.sin(x[0,0]+0.7)+math.sin(0.2*x[1,0]+0.5)+math.cos(0.1*x[3,0]+0.1)+math.cos(0.5*x[3,0]+0.4),$$
+	$$f_2(x_0,x_1,x_2,x_3):=0.5*(x[0,0]*x[0,0]+x[1,0]*x[1,0]+x[2,0]*x[2,0]+x[3,0]*x[3,0]),$$
+	$f(x_0,x_1,x_2,x_3)=f_1(x_0,x_1,x_2,x_3)+f_2(x_0,x_1,x_2,x_3),$ it is easy to verify that $f$ is not convex 
+	but is $L-$smoothness for some constant $L$. In the first four experiments, I choose $K=2$, in the last
+	experiment, I choose $K=1$. The experiment results are shown in the following pictures, actually you can not 
+	see much differece there (all these methods converges fast)because of the selection of the test functions.  
+	The results quite match the theory.
+	\begin{figure}
+		\centering
+		\subfigure[ ]{\includegraphics[width=6.7cm]{Figure_1301.png}} 
+		\subfigure[]{\includegraphics[width=6.7cm]{Figure_1302.png}}
+		\\
+		\subfigure[ ]{\includegraphics[width=6.7cm]{Figure_1303.png}} 
+		\subfigure[]{\includegraphics[width=6.7cm]{Figure_1304.png}}
+		
+		
+		\caption{ The four pictures show the error with respect to the iteration number.} %图片标题
+		\label{img2}
+	\end{figure}
+	
+	\paragraph{p2.}
+	\begin{proof}
+		\begin{equation*}
+			\nabla f(x)= Ax+b, \quad \text{for any }x \in\mathbb{R}^n,
+		\end{equation*}
+	so 
+	$$
+	\nabla f(x)-\nabla f(y)=A(x-y).
+	$$
+	\end{proof}
+	
+	
+\end{document}
