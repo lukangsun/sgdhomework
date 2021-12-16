@@ -17,19 +17,13 @@
 \DeclareMathOperator{\n}{\nabla}
 \DeclareMathOperator{\E}{\mathrm{E}}
 \DeclareMathOperator{\xyz}{\textbf{numpy.random.normal()}}
-\title{CS331-HW12-Lukang-Sun}
+\title{CS331-HW13-Lukang-Sun}
 \begin{document}
 	\maketitle
 	
 	\paragraph{p1.}
 	(see Figure $\ref{img2}$.)
-	$$f_1(x_0,x_1,x_2,x_3):=math.sin(x[0,0]+0.7)+math.sin(0.2*x[1,0]+0.5)+math.cos(0.1*x[3,0]+0.1)+math.cos(0.5*x[3,0]+0.4),$$
-	$$f_2(x_0,x_1,x_2,x_3):=0.5*(x[0,0]*x[0,0]+x[1,0]*x[1,0]+x[2,0]*x[2,0]+x[3,0]*x[3,0]),$$
-	$f(x_0,x_1,x_2,x_3)=f_1(x_0,x_1,x_2,x_3)+f_2(x_0,x_1,x_2,x_3),$ it is easy to verify that $f$ is not convex 
-	but is $L-$smoothness for some constant $L$. In the first four experiments, I choose $K=2$, in the last
-	experiment, I choose $K=1$. The experiment results are shown in the following pictures, actually you can not 
-	see much differece there (all these methods converges fast)because of the selection of the test functions.  
-	The results quite match the theory.
+	$f_1(x,y):=ax^2+by^2+\sin(x),f_2(x,y):=cx^2+dy^2+\cos(y), f(x,y)=\frac{1}{2}f_1(x,y)+\frac{1}{2}f_2(x,y), \tau = 1, $ the initial point $w_1^0=w^0_2=(1,1)$. In the four experiments, I choose $(a,b,c,d)=(5,3,2,7,),(50,3,2,70),\\(50,300,2,70),(50,300,200,7)$ respectively. The error is $\mathrm{E}\left[||\nabla f(x)||^2\right]$. In these experiments, no matter what the value of $(a,b,c,d)$ are, they all converge very fast(actually all take 2 steps till the error almost converges to 0).
 	\begin{figure}
 		\centering
 		\subfigure[ ]{\includegraphics[width=6.7cm]{Figure_1301.png}} 
@@ -39,7 +33,7 @@
 		\subfigure[]{\includegraphics[width=6.7cm]{Figure_1304.png}}
 		
 		
-		\caption{ The four pictures show the error with respect to the iteration number.} %图片标题
+		\caption{ The four pictures show the error with respect to the iteration number.Note the the first error is evaluated at point at $x^1$ instead of $x^0=w^0_1=w^0_2=(1,1)$ in my experiments. } %图片标题
 		\label{img2}
 	\end{figure}
 	
@@ -53,6 +47,25 @@
 	\nabla f(x)-\nabla f(y)=A(x-y).
 	$$
 	\end{proof}
+	
+	\paragraph{p3.}
+	(see Figure $\ref{img1}$.)
+	$f_1(x,y):=ax^2+by^2+\sin(x),f_2(x,y):=cx^2+dy^2+\cos(y), f(x,y)=\frac{1}{2}f_1(x,y)+\frac{1}{2}f_2(x,y),  $ the initial point $x^0=(1,1)$. In the four experiments, I choose $(a,b,c,d)=(5,3,2,7,),(5,3,20,7)$ respectively. The error is $\sqrt{f(x)-f(x^*)}$ and $||B_k-H_*^{-1}||^2_{F(H_*)}$ respectively, where $x^*=(-0.0199960017324,0)$. I want to test that: 1.Error $\sqrt{f(x)-f(x^*)}$ decreases exponentially, 2. Error $||B_k-H_*^{-1}||^2_{F(H_*)}$ decreases exponentially, 3. These errors' decreasing rate is independent of the condition number. I choose these problems
+	because the theory predicts these results  and I can verify these through experiments, actually the results verify 
+	the prediction.
+	\begin{figure}
+		\centering
+		\subfigure[ ]{\includegraphics[width=6.7cm]{Figure_1305.png}} 
+		\subfigure[]{\includegraphics[width=6.7cm]{Figure_1306.png}}
+		\\
+		\subfigure[ ]{\includegraphics[width=6.7cm]{Figure_1307.png}} 
+		\subfigure[]{\includegraphics[width=6.7cm]{Figure_1308.png}}
+		
+		
+		\caption{  (a) and (b) show $\sqrt{f(x)-f(x^*)}$ converges exponentially fast with different $(a,b,c,d)$, note there are some iteration steps that the error doesn't drop, this is because of the Monotonic option step. (c) and (d) show $||B_k-H_*^{-1}||^2_{F(H_*)}$ converges exponentially fast with different $(a,b,c,d)$. $x^0=(1,1)$ in my experiments. } %图片标题
+		\label{img1}
+	\end{figure}
+	
 	
 	
 \end{document}

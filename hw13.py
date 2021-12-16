@@ -16,9 +16,10 @@ import heapq
 import random
 from numpy import linalg as la
 innitialpoint = matrix([[1],[1]])
-a=50
-b=300
-c=200
+optimal = matrix([[-0.0199960017324],[0]])
+a=5
+b=3
+c=20
 d=7
 #function
 def f_1(x):
@@ -40,7 +41,10 @@ def hess_2(x):
     return matrix([[2*c,0],[0,2*d-math.cos(x[1,0])]])
 
 def unisam1():
-    return random.choice([0,1])      
+    return random.choice([0,1])
+
+def sampleS():
+    return matrix([[random.choice([1,2])],[random.choice([1,2])]])
 
 
 def SN(iteration,initialp,stepsizes,probability):  
@@ -71,25 +75,71 @@ def SN(iteration,initialp,stepsizes,probability):
     return dis
 
 
+def BFGS(B,H,S):
+    tmp = S*la.inv(S.transpose()*H*S)*S.transpose()
+    
+    identity = matrix([[1,0],[0,1]])
+    return tmp+(identity-tmp*H)*B*(identity-H*tmp)
+
+
+def RBFGS(iteration,initialp,stepsizes,probability):  
+    iter = iteration
+    initial = initialp
+    stepsizes = stepsizes
+    dis = []
+    error = 0
+    dis1=[]
+    x = initial
+    y=x
+    B=matrix([[1,0],[0,1]])
+    identity = matrix([[1,0],[0,1]])
+    H1 = hess_1(optimal)+hess_2(optimal)
+    traj = []
+    traj.append(x)
+    for i in range(iter):
+
+        x = x - B*(grad_1(y)+grad_2(y))
+        if f_1(x)+f_2(x)>f_1(y)+f_2(y):
+           x = y
+
+        H = hess_1(y)+hess_2(y)
+        S = sampleS()
+        B = BFGS(B,H,S)
+    
+        
+        y=x
+        traj.append(x)
+        error = (f_1(x)+f_2(x)-f_1(optimal)-f_2(optimal))**0.5
+        dis.append(error)
+        tmp = H1*B*H1*B-2*H1*B+identity
+        error = trace(tmp)
+        dis1.append(error)
+    return dis, dis1
 
 
 
-iteration = 10
-stepsize = 100**-1
-p=0.3
 
-MarinaRand=SN(iteration,innitialpoint,stepsize,p)
+iteration = 100
+stepsize = None
+p=None
+
+#MarinaRand=SN(iteration,innitialpoint,stepsize,p)
+#New = []
+#for i in MarinaRand:
+#    New.append(float(i))
+
+
+MarinaRand=RBFGS(iteration,innitialpoint,stepsize,p)
 New = []
-for i in MarinaRand:
-    New.append(float(i))
+for i in MarinaRand[1]:
+    New.append((float(i)))
 
 
-
-plt.plot(range(iteration),New,linewidth = 0.5,label = 'SN with (a,b,c,d)=(50,300,200,7)')
+plt.plot(range(iteration),New,linewidth = 0.5,label = 'RBFGS (a,b,c,d)=(5,3,20,7)')
 
 plt.legend()
 plt.xlabel('Iteration')
-plt.ylabel('Error ')
+plt.ylabel('Hessian Error ')
 #plt.title('Stepsize = 0.01')
 plt.show()
 
